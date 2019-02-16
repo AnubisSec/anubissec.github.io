@@ -58,7 +58,7 @@ Web Ports
 So port 80 just redirects to HTTPS, or port 443, so this is what I'll be focusing on.
 
 
-<HOMEPAGE IMAGE>
+![](/assets/images/Giddy/Giddy-HomePage.png)
 
 
 
