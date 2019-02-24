@@ -125,7 +125,7 @@ Great, so now we have our socket created, next let's work on setting up the bind
 
 So the first thing we do is clear out the edx register from what we did before, using `xor`. Next instruction set, we will move the contents of `eax` into `ebx`. This is essentially putting the result of the socket function into `ebx` which is required for the bind syscall. 
 
-Following this, we need to set the IP address as seen in the example C code. This IP address will be what the one listening for the bind shell. The best way to maintain access and persistence for an attack is to make this IP address the `0.0.0.0` IP address, which will open the bind port for all interfaces. So the next instruction we will do is `push edx` which just pushes all zeroes on the stack, effectively giving us the IP parameter of `0.0.0.0`. 
+Following this, we need to set the IP address as seen in the example C code. This IP address will be the one listening for the bind shell. The best way to maintain access and persistence for an attack is to make this IP address the `0.0.0.0` IP address, which will open the bind port for all interfaces. So the next instruction we will do is `push edx` which just pushes all zeroes on the stack, effectively giving us the IP parameter of `0.0.0.0`. 
 
 We then load the stack with the port number we want to open on the interfaces, which is the next argument to pass. Here we push the word `0x5c11` which is the value `4444` in little endian format, and the also putting `0x02` onto the stack which is loading the value for `AF_INET` for this syscall as seen before. 
 
@@ -133,7 +133,7 @@ Next, we move the address pointing to the the top of the stack (`esp`) into `ecx
 
 Then from the file "/usr/include/linux/in.h" we obtain the value for the `sizeof` function that is also called within bind. This value is defined as 16, so we put that into `dl`, our last argument holder. 
 
-Finall we load `ax` with the syscall value of `bind`, which is 361 as seen in the same file we got the `socket` value from, and we again call the `int 0x80` interrupt to actually execute the bind syscall.
+Finally we load `ax` with the syscall value of `bind`, which is 361 as seen in the same file we got the `socket` value from, and we again call the `int 0x80` interrupt to actually execute the bind syscall.
 
 
 The next few lines are effectively a rinse and repeat from above, executing the `accept` syscall to await connections, and the `dup2` syscall to allow standard in, out, and error. With `dup2` we create a loop, so that it loads all three of the file descriptors so that the bind shell is fully interactive.
@@ -296,3 +296,11 @@ ubuntu
 When we connet to the bind port, we don't get any output, but when we run commands after connecting, we see that we have a working shell on the host! Perfect.
 
 This has been my journey on creating a Bind TCP shellcode using asm, next I will be creating a Reverse TCP shellcode. See you then!
+
+<hr />
+
+This blog post was created as per the requirements of the Security Tube Linux Assembly Expert certification.
+
+Student ID: SLAE-1406
+
+Please see [https://github.com/AnubisSec/SLAE] for all the source files mentioned on this site.
