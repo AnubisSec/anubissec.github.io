@@ -68,6 +68,9 @@ This file lists out all the syscall values for anything you could need, includin
 
 Next, we will go through the lines of the assignment code that I created to see what's happening.
 
+Creating the shellcode from the C program
+-----------------------------------------
+
 The first set of instructions are really basic, just clearing out the registers we will be using by using `xor` against themselves. 
 
 
