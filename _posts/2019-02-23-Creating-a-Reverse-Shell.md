@@ -121,7 +121,7 @@ int main() {
 }
 ```
 
-Then we compile using `gcc test.c -o size` and running `./test' returns the value of `16`
+Then we compile using `gcc test.c -o size` and running `./test` returns the value of `16`
 
 ```sh
 anubis@ubuntu:~/SLAE/Assignment_2$ gcc test.c -o test
