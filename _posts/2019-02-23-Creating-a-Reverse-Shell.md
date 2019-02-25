@@ -1,7 +1,6 @@
 A reverse shell is similar to the bind shell that was disussed in the previous blog post. Reverse shells, as with bind shells, allow remote access through a network, but rather than having a listening port on the target host, you have the target host connect back to an attack host that has a listener set up. 
 
-Reverse shells have multiple advantages to bind shells, particularly with evading detection and bypassing certain rule sets. Plus, having a port listening on a host that is not normal will, for the most part, trigger more alerts to system/network administrators. Whereas a reverse shell will just show up as a connection to an outside IP address, which will get caught less, especially with certain obfuscation techniques. 
-
+Reverse shells have multiple advantages to bind shells, particularly with evading detection and bypassing certain rule sets. Plus, having a port listening on a host that is not normal will, for the most part, trigger more alerts to system/network administrators. Whereas a reverse shell will just show up as a connection to an outside IP address,which will get caught less, especially with certain obfuscation techniques.
 
 What a reverse shell looks like in C
 ------------------------------------
