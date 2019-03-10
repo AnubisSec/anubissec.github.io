@@ -354,7 +354,7 @@ We can see very similar attributes as the first payload. The first instruction b
 
 Let's make a break point at the address of the `call` function and see what happens at that point.
 
-``sh
+```sh
 gdb-peda$ b *0x804a072
 ```
 
