@@ -237,7 +237,7 @@ gdb-peda$
 
 It's difficult to see the exact output, but if we compare the output of just running the shellcode binary we can see how it executed.
 
-``sh
+```sh
 anubis@ubuntu:~/SLAE/Assignment_5$ ./exec_shellcode 
 Shellcode Length:  15
 uid=1000(anubis) gid=1000(anubis) groups=1000(anubis),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
