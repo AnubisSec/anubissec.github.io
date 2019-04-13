@@ -1,6 +1,6 @@
 Hello! This will be the first post of this series that I am doing in which I track the little things that I learn throughout the week.
 
-This one will be somewhat short since I hatched this idea midway through the week, but I think it's a good start! So let's jump into some topics!
+This one will be somewhat short since I hatched this idea midway through the week, but I think it's a good start! So let's jump into this topic!
 
 
 
@@ -23,7 +23,7 @@ func testFunc(foo int, bar int) int {
 }
 ```
 
-Here we have a function being named called `testFunc` and it has two integer parameters `foo` and `bar` and this function just returns the two parameters added together. This is a fairly simple funciton that would take up some useless space within your code in a large scale development enviornment.
+Here we have a function being named `testFunc` and it has two integer parameters `foo` and `bar` and this function just returns the two parameters added together. This is a fairly simple funciton that would take up some useless space within your code in a large scale development enviornment.
 
 Now let's look at a similar code snippet, but implementing anonymous functions:
 
@@ -35,10 +35,10 @@ var add := func(foo int, bar int) int {
 
 So as you can see this is very similar but notice a few key things:
 
-1.) We have declared a variable before the function, `add`
-2.) This variable has a value of a function
+- We have declared a variable before the function, `add`
+- This variable has a value of a function
 
-Now if we wanted to use this, we would do something like `fmt.Println(add(24,22))`. What this would do is just add the numbers `24` and `22` and print out the result. One of the most valuable reasons to use anonymous functions is that, as soon as the parameters have returned, and the function is called again, the paramaters are written over each time it's called. So this way, we don't need to reassign any variable within an anonymous function any time it's called multiple times. Take a look at this other example pulled from `Go By Example`:
+Now if we wanted to use this, we would do something like `fmt.Println(add(24,22))`. What this would do is just add the numbers `24` and `22` and print out the result. One of the most valuable reasons to use anonymous functions is that, as soon as the parameters have returned, and the function is called again, the paramaters are written over. This way, we don't need to reassign any variable within an anonymous function any time it's called multiple times. Take a look at this other example pulled from `Go By Example`:
 
 ```go
 func intSeq() func() int {
