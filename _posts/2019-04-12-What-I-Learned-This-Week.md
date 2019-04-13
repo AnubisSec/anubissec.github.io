@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Weekly Learning Post
-date: 04/12/2019
+date: 2019-04-12
 ---
 
 Hello! This will be the first post of this series that I am doing in which I track the little things that I learn throughout the week.
