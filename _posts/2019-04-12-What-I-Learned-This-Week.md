@@ -1,8 +1,9 @@
-```
+---
 layout: post
 title: Weekly Learning Post
 date: 04/12/2019
-```
+---
+
 Hello! This will be the first post of this series that I am doing in which I track the little things that I learn throughout the week.
 
 This one will be somewhat short since I hatched this idea midway through the week, but I think it's a good start! So let's jump into some topics!
