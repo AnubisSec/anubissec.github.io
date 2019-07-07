@@ -176,7 +176,7 @@ plugins:
   - jekyll-feed
   - jemoji
   - jekyll-include-cache
-
+  - jekyll-asciinema
 # mimic GitHub Pages with --safe
 whitelist:
   - jekyll-paginate
