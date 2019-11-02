@@ -107,8 +107,6 @@ GEM
       pathutil (~> 0.9)
       rouge (>= 1.7, < 4)
       safe_yaml (~> 1.0)
-    jekyll-asciinema (0.2.0)
-      jekyll (>= 2.0)
     jekyll-avatar (0.6.0)
       jekyll (~> 3.0)
     jekyll-coffeescript (1.1.1)
@@ -214,7 +212,7 @@ GEM
       jekyll-seo-tag (~> 2.1)
     minitest (5.11.3)
     multipart-post (2.1.1)
-    nokogiri (1.10.3)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     octokit (4.14.0)
       sawyer (~> 0.8.0, >= 0.5.3)
@@ -254,7 +252,6 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.12)
   github-pages
-  jekyll-asciinema
   jekyll-feed (~> 0.6)
   jekyll-theme-type!
   minima (~> 2.0)
