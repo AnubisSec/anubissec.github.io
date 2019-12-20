@@ -32,6 +32,10 @@ sshuttle -vr user@webserver targetSubnet/24
 ```
 
 This will use the SSH host (the webserver above) and create routes through the new interface to reach the target subnet. So when you try to reach any host on the target subnet, it will just automagically route the traffic based on the routes within the new interface. Amazing how it works. 
+See below a small diagram on how an attacker could use sshuttle to access a network. We will be following this diagram later on in the blog:
+
+![](/assets/images/OffShore/sshuttle_diagram.jpg)
+
 
 There will be times too that you need to take advantage of other options from traditional SSH while using `sshuttle`. One issue that I ran into while working within the Offshore labs is that you need to use a private key to SSH into the pivot host. Let's take a test drive with this shuttle shall we?
 
