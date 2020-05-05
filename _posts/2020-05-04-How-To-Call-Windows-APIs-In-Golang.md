@@ -112,7 +112,7 @@ So as you can see above, in the last line, we use the `procSystemParamInfo` vari
 
 Let's compile this with `go build` from within the directory of the source code and run the exe that gets built.
 
-![](assets/images/2020-05-04 20-19-13.mp4)
+![](assets/images/change.gif)
 
 
 Thanks for reading this! Feel free to hit me up on twitter if you have any questions about this! Happy hacking!
