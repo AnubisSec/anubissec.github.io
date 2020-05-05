@@ -108,7 +108,7 @@ func main()  {
 
 }
 ```
-So as you can see above in the last line, we use the `procSystemParamInfo` variable we declared which points to the API we want to use, then pair that with the `Call()` function explained earlier, and then load it up with the parameters we discussed towards the begining. You will see two additional wrappers around the `imagePath` variable on the last line as well. This is a super hacky way to get windows API's to accept golang variable types, first making the whole parameter a `uintptr` which is just a pointer that a C function will accept, and then wrapping the `UTF16PtrFromString` string in `unsafe.Pointer()` function to then allow Go to bypass the safety of type conversion since we are doing several unorthodox conversions.
+So as you can see above, in the last line, we use the `procSystemParamInfo` variable we declared which points to the API we want to use, then pair that with the `Call()` function explained earlier, and then load it up with the parameters we discussed towards the begining. You will see two additional wrappers around the `imagePath` variable on the last line as well. This is a super hacky way to get windows API's to accept golang variable types, first making the whole parameter a `uintptr` which is just a pointer that a C function will accept, and then wrapping the `UTF16PtrFromString` string in `unsafe.Pointer()` function to then allow Go to bypass the safety of type conversion since we are doing several unorthodox conversions.
 
 Let's compile this with `go build` from within the directory of the source code and run the exe that gets built.
 
