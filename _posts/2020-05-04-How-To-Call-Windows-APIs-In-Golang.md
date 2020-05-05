@@ -13,7 +13,9 @@ tags:
 Well, it's been quite a while since my last post, but it feels good to be back again. I've taken a break from doing exploit development stuff since getting my OSCE, I don't have much of passion for it anymore. I'm not focusing more on reversing and creating malware. And this blog post is a result of me going down this path.
 
 I've been learning a lot about Golang, trying to learn a new language and trying to future-proof my skill sets for a while. Go has actually been a blast to learn, but I needed to start tying it into my goal of learning how to develop malware. In this pursuit, I wanted to see the full realm of how Go can be utitlized to conduct malicious functions on users machines, and I soon after found out that you can call Windows APIs (similar to C programming) from within Go. 
-Though I found this out, there is VERY LITTLE documentation about this, if any at all. I found one blog (which I will link soon after this introduction) that talks about it, but is already a tad dated and not super easy to follow for people like me (non-developers). Wanting to be the change I want in the world, I decided to make this blog.
+Though I found this out, there is VERY LITTLE documentation about this, if any at all. I found one blog (which I will link soon after this introduction) that talks about it, but is already a tad dated and not super easy to follow for people like me (non-developers). Wanting to be the change I want in the world, I decided to make this blog. 
+
+One shoutout I have to make is to this [blog](https://medium.com/jettech/breaking-all-the-rules-using-go-to-call-windows-api-2cbfd8c79724) which is the one I mentioned above and had the most robust explanation on this topic that I could find. 
 
 Without much more rambling, let's get into the meat of this blog!
 
