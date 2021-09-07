@@ -246,7 +246,7 @@ stream {
         }
 }
 ```
-That's it, ha! All our nginx server will be doing is listening on port 443, and then pass all traffic that goes to port 443 over to our second hop, `hop2`. The syntax seen here, `{{ groups['hop2'] | first }}` is utilizing jinja2 to pull variables dynamically when we run Ansible. the syntax inside the curly brackets just pulls the public IP address of our second hop. 
+That's it, ha! All our nginx server will be doing is listening on port 443, and then pass all traffic that goes to port 443 over to our second hop, `hop2`. The syntax seen here, ```{{ groups['hop2'] | first }}``` is utilizing jinja2 to pull variables dynamically when we run Ansible. the syntax inside the curly brackets just pulls the public IP address of our second hop. 
 
 So we basdically just take that config above, and push it to our first hop server, and restart nginx. That server is now configured and ready to go! Now we move on to `hop2` play.
 
