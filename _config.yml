@@ -87,7 +87,7 @@ analytics:
 # Site Author
 author:
   name             : "Anubis"
-  avatar           : "/assets/images/avatar.jpg"
+  avatar           : "/assets/images/image.jpg"
   bio              : "Desperately trying to live my life like the movie Hackers"
   location         : "US"
   email            : "ProphetSec@protonmail.com"
