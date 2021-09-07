@@ -295,7 +295,7 @@ Let's take a look:
         state: restarted
 ```
 
-So as you can see, it's effectively the same as the first hop, `hop1`, but we just upload the SSL certficiate stuff as well. Also note the `{{ domain }}` variables used within this play. This variable is defined at run time, using the `--extra-vars "domain=<domain_name_here>"` when running ansible CLI.
+So as you can see, it's effectively the same as the first hop, `hop1`, but we just upload the SSL certficiate stuff as well. Also note the ```{{ domain }}``` variables used within this play. This variable is defined at run time, using the `--extra-vars "domain=<domain_name_here>"` when running ansible CLI.
 
 Let's take a look at the nginx configuration for our second redirector:
 
