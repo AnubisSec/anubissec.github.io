@@ -83,7 +83,7 @@ func main() {
 
 Let's go over the imports here. `fmt` for us to print some text to the terminal, `unsafe` allows us to bypass the safety of declaring types within Go programs, and finally `golang.org/x/sys/windows` is what will allow us to call Windows APIs.
 
-Looking over the documentation of the `windows` library, since the `SystemParameterInfoW()` function is explicitly defined by the creator of this library, we have to manually open a handle the DLL that holds this function, and then create a variable that points to this function. In the `windows` library, the way to open a handle to a DLL is:
+Looking over the documentation of the `windows` library, since the `SystemParameterInfoW()` function is not explicitly defined by the creator of this library, we have to manually open a handle to the DLL that holds this function, and then create a variable that points to this function. In the `windows` library, the way to open a handle to a DLL is:
 
 ```go
 user32DLL				= windows.NewLazyDLL("user32.dll")
