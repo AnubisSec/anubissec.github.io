@@ -89,13 +89,10 @@ author:
   name             : "Anubis"
   avatar           : "/assets/images/image.png"
   bio              : "Desperately trying to live my life like the movie Hackers"
-  location         : "US"
-  email            : "ProphetSec@protonmail.com"
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
   github           : "AnubisSec"
   twitter          : "AnubisOnSec"
-  youtube          : "https://www.youtube.com/channel/UCMX5_cKyGkb0iM8E9ndIPyA"
 
 
 # Reading Files
