@@ -124,7 +124,7 @@ We did have to import a function that isn't imported on the invocation of `shell
 
 To tie it all together, with the help of some vibe coding, I managed to create a script that, if you can get it on the container, will help automate this process for you. Simply drop the script to wherever you can, in my case I put it in `/tmp/awxfiltrate.py`, and then call it via the `awx-manage shell` command via `awx-manage shell < /tmp/awxfiltrate.py`. The reason I've landed on doing it this way is that it's really annoying to try and copy and paste Python code into an interpreter.Also, in order to have all the appropriate `awx` Python libraries available to you, you need to `source /var/lib/awx/venv/bin/activate` and then call stuff from there. I'd just much rather use a native utility. 
 
-The `AWXFiltrate` script is available on my Github here.
+The `AWXFiltrate` script is available on my Github [here](https://github.com/AnubisSec/AWXFiltrate).
 
 See below the output when calling the script:
 
