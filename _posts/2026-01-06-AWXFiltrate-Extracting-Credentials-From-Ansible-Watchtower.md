@@ -25,7 +25,6 @@ IT Administrators who would like to manage a large amount of Ansible playbooks a
 AWX enables users to securely store credential material and inject it into Ansible playbooks when needed. For instance, if a playbook must interact with a cloud service, you can store the cloud provider’s credentials in AWX and reference them from the playbook, eliminating the need to hardcode sensitive information.
 
 ![](/assets/images/AWXFiltrate/credentialTypes.png)
-
 _Different types of credentials AWX supports_
 
 ## Investigating AWX Web Panel
@@ -33,7 +32,6 @@ _Different types of credentials AWX supports_
 After gaining administrator access to AWX web panel, it's not inherently clear what valuable information is available to an operator.
 
 ![](/assets/images/AWXFiltrate/awxDashboard.png)
-
 _AWX Dashboard Shown After Logging in_
 
 Naturally during a Red Team operation, the panel labeled `Credentials` is enticing, but navigating to this page shows the following: 
