@@ -10,8 +10,6 @@ tags:
 ---
 
 
-# Introduction
-
 ## What is Ansible Watch Tower (AWX)
 
 According to the AWX README:
