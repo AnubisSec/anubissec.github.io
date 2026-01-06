@@ -1,3 +1,15 @@
+---
+layout: single
+title: AWXFiltrate Extracting Credentials From Ansible Watchtower 
+date: 2026-01-06
+classes: wide
+tags:
+    - Red Team
+    - Ansible
+    - Watchtower 
+---
+
+
 # Introduction
 
 ## What is Ansible Watch Tower (AWX)
