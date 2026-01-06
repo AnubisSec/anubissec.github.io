@@ -25,7 +25,7 @@ IT Administrators who would like to manage a large amount of Ansible playbooks a
 AWX enables users to securely store credential material and inject it into Ansible playbooks when needed. For instance, if a playbook must interact with a cloud service, you can store the cloud provider’s credentials in AWX and reference them from the playbook, eliminating the need to hardcode sensitive information.
 
 ![](/assets/images/AWXFiltrate/credentialTypes.png)
-_Different types of credentials AWX supports_
+_Different types of credentials in AWX_
 
 ## Investigating AWX Web Panel
 
@@ -58,12 +58,16 @@ _Listing running pods on a host running AWX_
 
 There are a few pods associated with AWX, but the ones of interest will be the ones with the keyword `task` in the pod name. These are the pods that run containers associated with the backend services such as redis, databases, and most importantly, tasks. If we take a look at the containers being hosted in the `awx-demo-task-...` pod, we can see a container called `awx-demo-task`
 
-This is the container that, if you are able, you will want to execute into in order to interact with the secret management engine of AWX. Below is a screenshot of getting a shell into this container in our testing environment: 
+
+![](/assets/images/AWXFiltrate/podDescription.png)
+_Showing awx-demo-task container in task pod_
+
+This is the container that you will want to execute into in order to interact with the secret management engine of AWX. Below is a screenshot of getting a shell into this container in our testing environment: 
 
 ![](/assets/images/AWXFiltrate/execPod.png)
 _Executing into a task container_
 
-Once you have an interactive shell on this container, AWX ships with a command line management tool called `awx-manage`, and this tool has a function called `shell_plus`. This is effectively a beefed up Python interpreter that comes preloaded with some Django and custom AWX libraries in order to directly interact with the Django framework managing AWX. 
+Once you have an interactive shell on this container, we found that AWX ships with a command line management tool called `awx-manage`, which has a function called `shell_plus`. This is effectively a beefed up Python interpreter that comes preloaded with some Django and custom AWX libraries in order to directly interact with the Django framework managing AWX. 
 
 ```bash
 bash-5.1$ awx-manage shell_plus
@@ -108,9 +112,9 @@ The most important piece of information received from the above query is the `pk
 dict_keys(['password', 'username', 'authorize'])
 ```
 
-We chose the `Super Password` password, which has a `pk` value of `3`. This passes the ID into a new function that returns a dictionary, with keys `password`, `username`, and `authorize`. The `authorize` key is just whether the credential is used as a `become` password within an Ansible playbook, so not super interesting to us for this blog. 
+Above you can see we chose the `Super Password` password, which has a `pk` value of `3`. We can then pass the ID into a new function that returns a dictionary, with keys `password`, `username`, and `authorize` (The `authorize` key is just whether the credential is used as a `become` password within an Ansible playbook, so not super interesting to us for this blog). 
 
-What we do very much care about are the `username` and `password` fields, so lets decrypt those with the following: 
+What we do very much care about however are the `username` and `password` fields, so lets decrypt those with the following: 
 
 ```python
 >>> from awx.main.utils.encryption import decrypt_field
@@ -122,7 +126,9 @@ What we do very much care about are the `username` and `password` fields, so let
 
 We did have to import a function that isn't imported on the invocation of `shell_plus`, but does come with AWX installations. Then we just pass the dictionary variable of `cred` we assigned earlier and the key we want to retrieve, and it hands it to us in plain text!
 
-To tie it all together, with the help of some vibe coding, I managed to create a script that, if you can get it on the container, will help automate this process for you. Simply drop the script to wherever you can, in my case I put it in `/tmp/awxfiltrate.py`, and then call it via the `awx-manage shell` command via `awx-manage shell < /tmp/awxfiltrate.py`. The reason I've landed on doing it this way is that it's really annoying to try and copy and paste Python code into an interpreter.Also, in order to have all the appropriate `awx` Python libraries available to you, you need to `source /var/lib/awx/venv/bin/activate` and then call stuff from there. I'd just much rather use a native utility. 
+To tie it all together, with the help of some vibe coding, I managed to create a script that, if you can get it on the container, will help automate this process for you. Simply drop the script to wherever you can, in my case I put it in `/tmp/awxfiltrate.py`, and then call it via the `awx-manage shell` command via `awx-manage shell < /tmp/awxfiltrate.py`. 
+
+The reason I've landed on doing it this way is that it's really annoying to try and copy and paste Python code into an interpreter.Also, in order to have all the appropriate `awx` Python libraries available to you, you need to `source /var/lib/awx/venv/bin/activate` and then call stuff from there. I'd just much rather use a native utility. 
 
 The `AWXFiltrate` script is available on my Github [here](https://github.com/AnubisSec/AWXFiltrate).
 
