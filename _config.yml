@@ -88,7 +88,7 @@ analytics:
 author:
   name             : "Anubis"
   avatar           : "/assets/images/image.png"
-  bio              : "Logging into things I shouldn't; corpo hacker unfortunately"
+  bio              : "Logging into things I shouldn't"
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
   github           : "AnubisSec"
