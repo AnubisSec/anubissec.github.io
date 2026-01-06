@@ -19,7 +19,7 @@ locale                   : "en-US"
 title                    : "anubissec.github.io"
 title_separator          : "-"
 name                     : "Anubis"
-description              : "Blogs about infosec and HackTheBox challenges"
+description              : "Blog to host my ramblings about tech, infosec, red teaming, and whatever else"
 url                      : "https://anubissec.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "AnubisSec/anubissec.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -88,7 +88,7 @@ analytics:
 author:
   name             : "Anubis"
   avatar           : "/assets/images/image.png"
-  bio              : "Desperately trying to live my life like the movie Hackers"
+  bio              : "Logging into things I shouldn't; corpo hacker unfortunately"
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
   github           : "AnubisSec"
